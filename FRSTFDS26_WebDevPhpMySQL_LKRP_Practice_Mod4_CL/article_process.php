@@ -42,7 +42,8 @@ if ($auteur !== '' && (strlen($auteur) < 3 || strlen($auteur) > 50)) {
 }
 
 // 3. Validation de la date
-if ($date !== '') {
+if ($date !== '') 
+    {
     $dateObj = DateTime::createFromFormat('Y-m-d', $date);
 
     if (!$dateObj) {
