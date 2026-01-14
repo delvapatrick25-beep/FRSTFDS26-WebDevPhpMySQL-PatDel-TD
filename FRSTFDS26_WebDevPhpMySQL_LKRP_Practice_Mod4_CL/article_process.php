@@ -1,11 +1,14 @@
 <?php
 
+// 0. Initialiser le tableau des erreurs
+$errors = [];
+
+// Récupération des données du formulaire
 $titre = htmlspecialchars(trim($_POST["titre"] ?? ''));
 $contenu = htmlspecialchars(trim($_POST["contenu"] ?? ''));
 $auteur = htmlspecialchars(trim($_POST["auteur"] ?? ''));
 $categorie = htmlspecialchars(trim($_POST["categorie"] ?? ''));
 $date = htmlspecialchars(trim($_POST["date"] ?? ''));
-
 
 // 1. Vérifier champs obligatoires
 if ($titre === '') {
@@ -42,8 +45,7 @@ if ($auteur !== '' && (strlen($auteur) < 3 || strlen($auteur) > 50)) {
 }
 
 // 3. Validation de la date
-if ($date !== '') 
-    {
+if ($date !== '') {
     $dateObj = DateTime::createFromFormat('Y-m-d', $date);
 
     if (!$dateObj) {
@@ -63,5 +65,51 @@ if ($categorie !== '' && !in_array($categorie, $categories_valides)) {
 // 5. Résultat final
 $article_valide = empty($errors);
 
-
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Blog</title>
+
+    <!-- Bootstrap CSS depuis CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar Bootstrap -->
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">Mon Blog</span>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <div class="container mt-5">
+        <h1>Mon Blog</h1>
+        <p>Bienvenue sur mon blog. Découvrez mes articles.</p>
+
+        <!-- Section: Confirmation -->
+        <h2 class="mt-5">Confirmation d'envoi de message</h2>
+        <?php
+        if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <strong>❌ Erreurs détectées :</strong>
+                <ul>
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
