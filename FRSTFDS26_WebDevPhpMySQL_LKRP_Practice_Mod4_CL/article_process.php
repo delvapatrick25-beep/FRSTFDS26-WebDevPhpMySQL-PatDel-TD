@@ -65,6 +65,14 @@ if ($categorie !== '' && !in_array($categorie, $categories_valides)) {
 // 5. Résultat final
 $article_valide = empty($errors);
 
+
+$titre_safe = htmlspecialchars($titre);
+$contenu_safe = htmlspecialchars($contenu);
+$auteur_safe = htmlspecialchars($auteur);
+$categorie_safe = htmlspecialchars($categorie);
+$date_safe = htmlspecialchars($date);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -99,7 +107,7 @@ $article_valide = empty($errors);
         <?php
         if (!empty($errors)): ?>
             <div class="alert alert-danger">
-                <strong>❌ Erreurs détectées :</strong>
+                <strong>Erreurs détectées :</strong>
                 <ul>
                     <?php foreach ($errors as $error): ?>
                         <li><?= htmlspecialchars($error) ?></li>
@@ -107,7 +115,25 @@ $article_valide = empty($errors);
                 </ul>
             </div>
         <?php endif; ?>
+
+        <?php if ($article_valide): ?>
+            <div class="alert alert-success">
+                <h5>Article créé avec succès !</h5>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6><?= $titre_safe ?></h6>
+                        <p><?= $contenu_safe ?></p>
+                        <small>Par <?= $auteur_safe ?> | Catégorie: <?= $categorie_safe ?> | <?= $date_safe ?></small>
+                    </div>
+                </div>
+                <small class="text-muted">
+                    Sécurité : Toutes les données affichées ont été nettoyées avec htmlspecialchars()
+                </small>
+            </div>
+        <?php endif; ?>
+
     </div>
+
 
     <script src="script.js"></script>
 </body>
